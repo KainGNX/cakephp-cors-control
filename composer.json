@@ -1,0 +1,36 @@
+{
+    "name": "kaingnx/cakephp-cors-control",
+    "type": "cakephp-plugin",
+    "description": "Configurable CORS response generation for CakePHP.",
+    "keywords": ["cakephp", "plugin", "cors", "request", "response", "http"],
+    "homepage": "https://github.com/kaingnx/cakephp-cors-control",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jason Horvath",
+            "email": "jason.horvath@greaterdevelopment.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.6.0",
+        "cakephp/cakephp": ">=3.7.0"
+    },
+    "require-dev": {
+        "cakephp/cakephp-codesniffer": "dev-master",
+        "phpunit/phpunit": "^5.7.14|^6.0"
+    },
+    "support": {
+        "source": "https://github.com/kaingnx/cakephp-cors-control"
+    },
+    "autoload": {
+        "psr-4": {
+            "CorsControl\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "CorsControll\\Test\\": "tests/"
+        }
+    },
+    "minimum-stability": "dev"
+}
