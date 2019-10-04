@@ -4,7 +4,7 @@ namespace CorsControl\Http;
 use Cake\Http\Client\Response;
 use Cake\Http\CorsBuilder;
 use Cake\Http\ServerRequest;
-use \Exception;
+use Cake\Error\FatalErrorException;
 
 class CorsResolver
 {
@@ -77,21 +77,33 @@ class CorsResolver
     protected function setConfig(array $config)
     {
         foreach ($this->defaultConfig as $key => $val) {
-            $this->config[$key] = ($config[$key] ?? $val);
+            $value = ($config[$key] ?? $val);
+            $this->setConfigValue($key, $value);
         }
     }
 
+    /**
+     * Set Config Value
+     * 
+     * @param string $key
+     * @param mixed $value
+     * @throws FatalErrorException
+     * @return void
+     */
     protected function setConfigValue(string $key, $value)
     {
         try {
-            if (gettype($this->defaultConfig[$key]) === gettype($value)) {
-                throw new Exception('Add a message');
+            $configValueType = gettype($this->defaultConfig[$key]);
+            $valuePassedType = gettype($value);
+            if ($configValueType !== $valuePassedType) {
+                throw new FatalErrorException('Invalid data type passed to the config. Config Value Type: ' .  $configValueType . ' - ' . 'Value Passed Type: ' . $valuePassedType);
             }
-        } catch (Exception $e) {
+            $this->config[$key] = $value;
+        } catch (FatalErrorException $e) {
             echo $e->getmessage();
         }
-        
     }
+
     /**
      * Get Builder Response
      *

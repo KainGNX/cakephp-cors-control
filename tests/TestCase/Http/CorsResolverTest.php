@@ -22,6 +22,16 @@ class CorsResolverTest extends TestCase
     protected $request;
 
     /**
+     * @var \CorsControl\Http\CorsResolver
+     */
+    protected $corsResolver;
+
+    /**
+     * @var ReflectionClass
+     */
+    protected $reflection;
+
+    /**
      * setup
      * 
      * @return void
@@ -32,6 +42,7 @@ class CorsResolverTest extends TestCase
         $this->request = new ServerRequest();
         $this->response = new Response();
         $this->corsResolver = new CorsResolver($this->request, $this->response);
+        $this->reflection = new ReflectionClass($this->corsResolver);
     }
 
     /**
@@ -41,10 +52,9 @@ class CorsResolverTest extends TestCase
      */
     public function testSetConfig()
     {
-        $class = new ReflectionClass($this->corsResolver);
-        $property = $class->getProperty('config');
+        $property = $this->reflection->getProperty('config');
         $property->setAccessible(true);
-        $method = $class->getMethod('setConfig');
+        $method = $this->reflection->getMethod('setConfig');
         $method->setAccessible(true);
 
         $value = $property->getValue($this->corsResolver);
@@ -61,7 +71,28 @@ class CorsResolverTest extends TestCase
         $this->assertCount(2, $value['allowMethods']);
         $this->assertSame('TESTAGAIN', $value['allowMethods'][1]);
         $this->assertFalse(isset($value['invalidPropShouldBeNull']));
-        
+    }
+
+    /**
+     * Test Set Config Value
+     * 
+     * @return void
+     */
+    public function testSetConfigValue()
+    {
+        $property = $this->reflection->getProperty('config');
+        $property->setAccessible(true);
+        $method = $this->reflection->getMethod('setConfigValue');
+        $method->setAccessible(true);
+
+
+        $config = $property->getValue($this->corsResolver);
+        $method->invoke($this->corsResolver, 'allowOrigin', ['test', 'testmore']);
+        $method->invoke($this->corsResolver, 'allowCredentials', false);
+        $config = $property->getValue($this->corsResolver);
+        $this->assertSame('testmore', $config['allowOrigin'][1]);
+        $this->assertFalse($config['allowCredentials']);
+        $test = '';
     }
 
 }
