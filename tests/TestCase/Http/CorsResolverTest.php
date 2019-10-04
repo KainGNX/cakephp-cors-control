@@ -6,6 +6,7 @@ use Cake\Http\Client\Response;
 use Cake\Http\ServerRequest;
 use Cake\TestSuite\TestCase;
 use CorsControl\Http\CorsResolver;
+use ReflectionClass;
 
 class CorsResolverTest extends TestCase
 {
@@ -40,7 +41,27 @@ class CorsResolverTest extends TestCase
      */
     public function testSetConfig()
     {
-        // write test
+        $class = new ReflectionClass($this->corsResolver);
+        $property = $class->getProperty('config');
+        $property->setAccessible(true);
+        $method = $class->getMethod('setConfig');
+        $method->setAccessible(true);
+
+        $value = $property->getValue($this->corsResolver);
+        $this->assertSame('*', $value['allowOrigin'][0]);
+
+        $testConfig = [
+            'allowOrigin' => ['invoked'],
+            'allowMethods' => ['TEST', 'TESTAGAIN'],
+            'invalidPropShouldBeNull' => 'This should not be here after invoke'
+        ];
+        $method->invoke($this->corsResolver, $testConfig);
+        $value = $property->getValue($this->corsResolver);
+        $this->assertSame('invoked', $value['allowOrigin'][0]);
+        $this->assertCount(2, $value['allowMethods']);
+        $this->assertSame('TESTAGAIN', $value['allowMethods'][1]);
+        $this->assertFalse(isset($value['invalidPropShouldBeNull']));
+        
     }
 
 }

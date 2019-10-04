@@ -4,6 +4,7 @@ namespace CorsControl\Http;
 use Cake\Http\Client\Response;
 use Cake\Http\CorsBuilder;
 use Cake\Http\ServerRequest;
+use \Exception;
 
 class CorsResolver
 {
@@ -80,6 +81,17 @@ class CorsResolver
         }
     }
 
+    protected function setConfigValue(string $key, $value)
+    {
+        try {
+            if (gettype($this->defaultConfig[$key]) === gettype($value)) {
+                throw new Exception('Add a message');
+            }
+        } catch (Exception $e) {
+            echo $e->getmessage();
+        }
+        
+    }
     /**
      * Get Builder Response
      *
