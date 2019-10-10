@@ -17,7 +17,8 @@
     },
     "require-dev": {
         "cakephp/cakephp-codesniffer": "dev-master",
-        "phpunit/phpunit": "^5.7.14|^6.0"
+        "phpunit/phpunit": "^5.7.14|^6.0",
+        "kaingnx/visible-unit": "dev-master"
     },
     "support": {
         "source": "https://github.com/kaingnx/cakephp-cors-control"
@@ -29,7 +30,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "CorsControll\\Test\\": "tests/"
+            "CorsControl\\Test\\": "tests/"
         }
     },
     "minimum-stability": "dev"
