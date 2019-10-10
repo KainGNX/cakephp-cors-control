@@ -104,7 +104,7 @@ class CorsResolver
             $configValueType = gettype($this->defaultConfig[$key]);
             $valuePassedType = gettype($value);
             if ($configValueType !== $valuePassedType) {
-                throw new FatalErrorException('Invalid data type passed to the config. Config Value Type: ' .  $configValueType . ' - ' . 'Value Passed Type: ' . $valuePassedType);
+                throw new FatalErrorException('Invalid value type passed to the config. Config Value Type: ' .  $configValueType . ' - ' . 'Value Passed Type: ' . $valuePassedType);
             }
             $this->config[$key] = $value;
         } catch (FatalErrorException $e) {
