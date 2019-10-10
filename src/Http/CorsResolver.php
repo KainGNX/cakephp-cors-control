@@ -1,7 +1,15 @@
 <?php
+/**
+ * Cors Control: A CakePHP plugin for adding CORS headers
+ * 
+ * @author      Jason Horvah <jason.horvath@greaterdevelopment.com>
+ * @link        https://greaterdevelopment.com
+ * @since       1.0.0
+ * @license     https://opensource.org/licenses/mit-license.php MIT License
+ */
 namespace CorsControl\Http;
 
-use Cake\Http\Client\Response;
+use Cake\Http\Response;
 use Cake\Http\CorsBuilder;
 use Cake\Http\ServerRequest;
 use Cake\Error\FatalErrorException;
@@ -30,7 +38,7 @@ class CorsResolver
             'PUT',
         ],
         'allowHeaders' => ['*'],
-        'exposeHeaders' => [],
+        'exposeHeaders' => ['Link'],
         'allowCredentials' => true,
         'maxAge' => 300
     ];
